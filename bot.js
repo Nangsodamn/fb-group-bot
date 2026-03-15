@@ -8,10 +8,7 @@ const appState = JSON.parse(fs.readFileSync("appstate.json","utf8"));
 login(
 {
 appState: appState,
-forceLogin: true,
-listenEvents: true,
-autoMarkDelivery: false,
-autoMarkRead: false
+forceLogin: true
 },
 (err, api) => {
 
@@ -23,12 +20,18 @@ return;
 
 console.log("✅ Bot connected!");
 
-const fs = require("fs");
+// Stability options
+api.setOptions({
+listenEvents: true,
+selfListen: false,
+autoMarkDelivery: false,
+autoMarkRead: false
+});
 
 // Auto-save updated appstate
 fs.writeFileSync(
-  "fbstate.json",
-  JSON.stringify(api.getAppState(), null, 2)
+"appstate.json",
+JSON.stringify(api.getAppState(), null, 2)
 );
 
 api.listenMqtt((err, event) => {
