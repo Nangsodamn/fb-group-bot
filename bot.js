@@ -23,6 +23,14 @@ return;
 
 console.log("✅ Bot connected!");
 
+const fs = require("fs");
+
+// Auto-save updated appstate
+fs.writeFileSync(
+  "fbstate.json",
+  JSON.stringify(api.getAppState(), null, 2)
+);
+
 api.listenMqtt((err, event) => {
 
 if(err){
